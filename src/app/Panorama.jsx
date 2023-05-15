@@ -1,20 +1,21 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
+
 // import VideoPopup from "./VideoPopup";
 
+import ReactPlayer from "react-player";
 
-
-const Panorama = ({}) => {
+export const Panorama = ({}) => {
   const Canvas = useRef(null);
   const [open, setOpen] = useState(false);
-const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [audio, setAudio] = useState(false);
 
   const initializePANOLENS = async () => {
     const THREE = await import("three");
     const PANOLENS = await import("panolens");
-
+   
     const viewer = new PANOLENS.Viewer({
       container: Canvas.current,
       autoRotate: true,
@@ -26,7 +27,6 @@ const [isOpen, setIsOpen] = useState(false);
       output: "console",
     });
 
-
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
     const panorama2 = new PANOLENS.ImagePanorama("/assets/360-2.jpg");
     viewer.add(panorama1, panorama2);
@@ -35,44 +35,52 @@ const [isOpen, setIsOpen] = useState(false);
     const hotspot2 = createInfospot("/assets/circle1.png");
     const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
     const popupHotspot2 = createInfospot("/assets/circle2.png");
-
+panorama1.addEventListener("enter-fade-start", function () {
+  panorama1.controls = new THREE.DeviceOrientationControls(panorama.camera);
+});
     hotspot2.position.set(10000.0, -500.0, 10.0);
     hotspot1.position.set(8300.0, 500.0, 5000.0);
     popupHotspot1.position.set(1800.0, 500.0, 8000.0);
     popupHotspot2.position.set(1000.0, 500.0, 8000.0);
 
-    panorama1.add(hotspot1, popupHotspot1,popupHotspot2);
+    panorama1.add(hotspot1, popupHotspot1, popupHotspot2);
     // panorama1.add(hotspot1);
     panorama2.add(hotspot2);
 
-    hotspot1.addEventListener("click", () => viewer.setPanorama(panorama2));
-    hotspot2.addEventListener("click", () => viewer.setPanorama(panorama1));
-    popupHotspot1.addEventListener("click", () => setOpen(true));
-    popupHotspot2.addEventListener("click", () => setIsOpen(true));
-     panorama1.addEventListener("enter-fade-start", () => {
-       viewer.getCamera().fov = 80;
-       viewer.getCamera().updateProjectionMatrix();
-       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
-     });
+    hotspot1.addEventListener("click", () => {viewer.setPanorama(panorama2)
+    setAudio(false)});
+    hotspot2.addEventListener("click", () => {viewer.setPanorama(panorama1)
+    setAudio(true);});
+    popupHotspot1.addEventListener("click", () => {
+      setOpen(true)
+    setAudio(false)
+    });
+    popupHotspot2.addEventListener("click", () => {setIsOpen(true)
+    setAudio(false);
+    });
+    panorama1.addEventListener("enter-fade-start", () => {
+      viewer.getCamera().fov = 80;
+      viewer.getCamera().updateProjectionMatrix();
+      viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
+    });
 
     function createInfospot(imageUrl) {
       const Infospot = new PANOLENS.Infospot(1000, imageUrl);
-       
-     
-         Infospot.animated = true;
+
+      Infospot.animated = true;
 
       return Infospot;
     }
   };
-   const onClose = () => {
-
-    
-    setOpen(false)
-   };
-   
+  const onClose = () => {
+    setOpen(false);
+    setAudio(true)
+  };
 
   useMemo(() => {
-    if (typeof window !== "undefined") initializePANOLENS();
+    if (typeof window !== "undefined") {
+      initializePANOLENS();
+    }
 
     return () => {
       Canvas.current?.destroy();
@@ -80,10 +88,16 @@ const [isOpen, setIsOpen] = useState(false);
     };
   }, [Canvas]);
 
-
   return (
     <>
       <div ref={Canvas} className="w-full h-screen overflow-hidden"></div>
+      {audio && (
+        <audio
+          src="/assets/audio.mp3"
+          className="w-0 h-0 hidden"
+          autoPlay
+        ></audio>
+      )}
 
       {open && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
@@ -92,7 +106,8 @@ const [isOpen, setIsOpen] = useState(false);
               <h2 className="text-xl  text-black">Enchanted Tranquility</h2>
               <button
                 className=" text-black items-start"
-                onClick={() => setOpen(false)}
+                onClick={() => {setOpen(false)
+                setAudio(true);}}
               >
                 <svg
                   className="h-6 w-6"
@@ -127,13 +142,13 @@ const [isOpen, setIsOpen] = useState(false);
         </div>
       )}
       {/* <VideoPopup open={open} setOpen={setOpen} /> */}
-
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white  rounded-lg relative w-[50%]">
             <button
               className="absolute top-2 right-2 z-10 text-white"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {setIsOpen(false)
+              setAudio(true);}}
             >
               <svg
                 className="h-5 w-5"
@@ -159,4 +174,3 @@ const [isOpen, setIsOpen] = useState(false);
   );
 };
 
-export default Panorama;
