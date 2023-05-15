@@ -1,113 +1,162 @@
-import Image from 'next/image'
+"use client";
 
-export default function Home() {
+import { useMemo, useRef, useState } from "react";
+// import VideoPopup from "./VideoPopup";
+
+
+
+const Panorama = ({}) => {
+  const Canvas = useRef(null);
+  const [open, setOpen] = useState(false);
+const [isOpen, setIsOpen] = useState(false);
+
+
+  const initializePANOLENS = async () => {
+    const THREE = await import("three");
+    const PANOLENS = await import("panolens");
+
+    const viewer = new PANOLENS.Viewer({
+      container: Canvas.current,
+      autoRotate: true,
+      autoRotateSpeed: 0.2,
+      autoRotateActivationDuration: 5000,
+      dwellTime: 1000,
+      autoHideInfospot: false,
+      controlBar: true,
+      output: "console",
+    });
+
+
+    const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
+    const panorama2 = new PANOLENS.ImagePanorama("/assets/360-2.jpg");
+    viewer.add(panorama1, panorama2);
+
+    const hotspot1 = createInfospot("/assets/circle.png");
+    const hotspot2 = createInfospot("/assets/circle1.png");
+    const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
+    const popupHotspot2 = createInfospot("/assets/circle2.png");
+
+    hotspot2.position.set(10000.0, -500.0, 10.0);
+    hotspot1.position.set(8300.0, 500.0, 5000.0);
+    popupHotspot1.position.set(1800.0, 500.0, 8000.0);
+    popupHotspot2.position.set(1000.0, 500.0, 8000.0);
+
+    panorama1.add(hotspot1, popupHotspot1,popupHotspot2);
+    // panorama1.add(hotspot1);
+    panorama2.add(hotspot2);
+
+    hotspot1.addEventListener("click", () => viewer.setPanorama(panorama2));
+    hotspot2.addEventListener("click", () => viewer.setPanorama(panorama1));
+    popupHotspot1.addEventListener("click", () => setOpen(true));
+    popupHotspot2.addEventListener("click", () => setIsOpen(true));
+     panorama1.addEventListener("enter-fade-start", () => {
+       viewer.getCamera().fov = 80;
+       viewer.getCamera().updateProjectionMatrix();
+       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
+     });
+
+    function createInfospot(imageUrl) {
+      const Infospot = new PANOLENS.Infospot(1000, imageUrl);
+       
+     
+         Infospot.animated = true;
+
+      return Infospot;
+    }
+  };
+   const onClose = () => {
+
+    
+    setOpen(false)
+   };
+   
+
+  useMemo(() => {
+    if (typeof window !== "undefined") initializePANOLENS();
+
+    return () => {
+      Canvas.current?.destroy();
+      Canvas.current = null;
+    };
+  }, [Canvas]);
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <div ref={Canvas} className="w-full h-screen overflow-hidden"></div>
+
+      {open && (
+        <div className="fixed inset-0 flex items-center justify-center z-10">
+          <div className="bg-white rounded-lg p-8 w-[50%]">
+            <div className="flex justify-between mb-4">
+              <h2 className="text-xl  text-black">Enchanted Tranquility</h2>
+              <button
+                className=" text-black items-start"
+                onClick={() => setOpen(false)}
+              >
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M14.348 14.849a1 1 0 01-1.414 1.414l-2.829-2.828-2.829 2.828a1 1 0 11-1.414-1.414l2.828-2.829L6.293 8.878a1 1 0 011.414-1.414l2.829 2.828 2.829-2.828a1 1 0 011.414 1.414l-2.828 2.829 2.828 2.829z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <p className="text-black">
+              As the golden rays of the setting sun embrace the earth, a serene
+              scene unfolds before your eyes. Nestled amidst a lush forest, a
+              picturesque lake glistens like a mirror, reflecting the ethereal
+              beauty of the surrounding landscape. The tranquil waters gently
+              lap against the shore, creating a soothing symphony that
+              harmonizes with the whispers of the wind rustling through the
+              trees.
+            </p>
+            <button
+              className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+              onClick={onClose}
+            >
+              Close
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+      {/* <VideoPopup open={open} setOpen={setOpen} /> */}
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {isOpen && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white  rounded-lg relative w-[50%]">
+            <button
+              className="absolute top-2 right-2 z-10 text-white"
+              onClick={() => setIsOpen(false)}
+            >
+              <svg
+                className="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M14.348 14.849a1 1 0 01-1.414 1.414l-2.829-2.828-2.829 2.828a1 1 0 11-1.414-1.414l2.828-2.829L6.293 8.878a1 1 0 011.414-1.414l2.829 2.828 2.829-2.828a1 1 0 011.414 1.414l-2.828 2.829 2.828 2.829z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+            <div className="aspect-w-16 aspect-h-9">
+              <video src="/assets/State.mp4" controls autoPlay></video>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Panorama;
