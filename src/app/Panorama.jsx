@@ -93,7 +93,7 @@ export const Panorama = ({}) => {
 
   return (
     <>
-      <div ref={Canvas} className="w-full h-full overflow-hidden "></div>
+      <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
       {audio && (
         <audio
           src="/assets/audio.mp3"
@@ -104,7 +104,7 @@ export const Panorama = ({}) => {
 
       {open && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
-          <div className="bg-white rounded-lg p-8 w-[50%]">
+          <div className="bg-white rounded-lg p-8 lg:w-[50%] ">
             <div className="flex justify-between mb-4">
               <h2 className="text-xl  text-black">Enchanted Tranquility</h2>
               <button
