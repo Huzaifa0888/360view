@@ -15,7 +15,7 @@ export const Panorama = ({}) => {
   const initializePANOLENS = async () => {
     const THREE = await import("three");
     const PANOLENS = await import("panolens");
-   
+    
     const viewer = new PANOLENS.Viewer({
       container: Canvas.current,
       autoRotate: true,
@@ -29,14 +29,14 @@ export const Panorama = ({}) => {
 
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
     const panorama2 = new PANOLENS.ImagePanorama("/assets/360-2.jpg");
-    viewer.add(panorama1, panorama2);
+    viewer.add(panorama2, panorama1);
+  
 
     const hotspot1 = createInfospot("/assets/circle.png");
     const hotspot2 = createInfospot("/assets/circle1.png");
     const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
     const popupHotspot2 = createInfospot("/assets/circle2.png");
-panorama1.addEventListener("enter-fade-start", function () {
-});
+
     hotspot2.position.set(10000.0, -500.0, 10.0);
     hotspot1.position.set(8300.0, 500.0, 5000.0);
     popupHotspot1.position.set(1800.0, 500.0, 8000.0);
@@ -58,8 +58,8 @@ panorama1.addEventListener("enter-fade-start", function () {
     setAudio(false);
     });
     panorama1.addEventListener("enter-fade-start", () => {
-  panorama1.controls = new THREE.DeviceOrientationControls(panorama1.camera);
-  panorama2.controls = new THREE.DeviceOrientationControls(panorama2.camera);
+    
+     
 
       viewer.getCamera().fov = 80;
       viewer.getCamera().updateProjectionMatrix();
@@ -89,10 +89,11 @@ panorama1.addEventListener("enter-fade-start", function () {
       Canvas.current = null;
     };
   }, [Canvas]);
+  
 
   return (
     <>
-      <div ref={Canvas} className="w-full h-screen overflow-hidden"></div>
+      <div ref={Canvas} className="w-full h-screen overflow-hidden bg-black"></div>
       {audio && (
         <audio
           src="/assets/audio.mp3"
