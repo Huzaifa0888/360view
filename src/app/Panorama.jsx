@@ -36,7 +36,6 @@ export const Panorama = ({}) => {
     const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
     const popupHotspot2 = createInfospot("/assets/circle2.png");
 panorama1.addEventListener("enter-fade-start", function () {
-  panorama1.controls = new THREE.DeviceOrientationControls(panorama.camera);
 });
     hotspot2.position.set(10000.0, -500.0, 10.0);
     hotspot1.position.set(8300.0, 500.0, 5000.0);
@@ -59,6 +58,9 @@ panorama1.addEventListener("enter-fade-start", function () {
     setAudio(false);
     });
     panorama1.addEventListener("enter-fade-start", () => {
+  panorama1.controls = new THREE.DeviceOrientationControls(panorama1.camera);
+  panorama2.controls = new THREE.DeviceOrientationControls(panorama2.camera);
+
       viewer.getCamera().fov = 80;
       viewer.getCamera().updateProjectionMatrix();
       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
