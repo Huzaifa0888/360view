@@ -93,7 +93,7 @@ export const Panorama = ({}) => {
 
   return (
     <>
-      <div ref={Canvas} className="w-full h-screen overflow-hidden bg-black"></div>
+      <div ref={Canvas} className="w-full h-full overflow-hidden "></div>
       {audio && (
         <audio
           src="/assets/audio.mp3"
