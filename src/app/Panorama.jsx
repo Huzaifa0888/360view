@@ -26,7 +26,7 @@ export const Panorama = ({}) => {
       controlBar: true,
       output: "console",
     });
-
+    
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
     const panorama2 = new PANOLENS.ImagePanorama("/assets/360-2.jpg");
     viewer.add(panorama2, panorama1);
@@ -147,7 +147,7 @@ export const Panorama = ({}) => {
       {/* <VideoPopup open={open} setOpen={setOpen} /> */}
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white  rounded-lg relative w-[50%]">
+          <div className="bg-white  rounded-lg relative lg:w-[50%]">
             <button
               className="absolute top-2 right-2 z-10 text-white"
               onClick={() => {setIsOpen(false)
