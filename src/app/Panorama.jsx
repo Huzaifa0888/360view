@@ -15,7 +15,7 @@ export const Panorama = ({}) => {
   const initializePANOLENS = async () => {
     const THREE = await import("three");
     const PANOLENS = await import("panolens");
-    
+
     const viewer = new PANOLENS.Viewer({
       container: Canvas.current,
       autoRotate: true,
@@ -25,11 +25,10 @@ export const Panorama = ({}) => {
       autoHideInfospot: false,
       controlBar: true,
     });
-    
+
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
     const panorama2 = new PANOLENS.ImagePanorama("/assets/360-2.jpg");
     viewer.add(panorama2, panorama1);
-  
 
     const hotspot1 = createInfospot("/assets/circle.png");
     const hotspot2 = createInfospot("/assets/circle1.png");
@@ -45,21 +44,23 @@ export const Panorama = ({}) => {
     // panorama1.add(hotspot1);
     panorama2.add(hotspot2);
 
-    hotspot1.addEventListener("click", () => {viewer.setPanorama(panorama2)
-    setAudio(false)});
-    hotspot2.addEventListener("click", () => {viewer.setPanorama(panorama1)
-    setAudio(true);});
-    popupHotspot1.addEventListener("click", () => {
-      setOpen(true)
-    setAudio(false)
+    hotspot1.addEventListener("click", () => {
+      viewer.setPanorama(panorama2);
+      setAudio(false);
     });
-    popupHotspot2.addEventListener("click", () => {setIsOpen(true)
-    setAudio(false);
+    hotspot2.addEventListener("click", () => {
+      viewer.setPanorama(panorama1);
+      setAudio(true);
+    });
+    popupHotspot1.addEventListener("click", () => {
+      setOpen(true);
+      setAudio(false);
+    });
+    popupHotspot2.addEventListener("click", () => {
+      setIsOpen(true);
+      setAudio(false);
     });
     panorama2.addEventListener("enter-fade-start", () => {
-    
-     
-
       viewer.getCamera().fov = 80;
       viewer.getCamera().updateProjectionMatrix();
       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
@@ -69,7 +70,6 @@ export const Panorama = ({}) => {
       viewer.getCamera().updateProjectionMatrix();
       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
     });
- 
 
     function createInfospot(imageUrl) {
       const Infospot = new PANOLENS.Infospot(1000, imageUrl);
@@ -81,15 +81,14 @@ export const Panorama = ({}) => {
   };
   const onClose = () => {
     setOpen(false);
-    setAudio(true)
+    setAudio(true);
   };
 
-    useEffect(() => {
-      if (typeof window !== "undefined") initializePANOLENS();
-    }, [Canvas]);
+  useEffect(() => {
+    if (typeof window !== "undefined") initializePANOLENS();
+  }, [Canvas]);
 
-  
-const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
   const handleDME = () => {
     if (typeof DeviceMotionEvent?.requestPermission === "function") {
@@ -102,22 +101,19 @@ const [permissionGranted, setPermissionGranted] = useState(false);
         })
         .catch(console.error);
     }
-    alert("Permission")
+    alert("Permission");
   };
-  
-useEffect(() => {
-setTimeout(() => {
-  
-  handleDME();
-}, 5000);
-  
-}, [])
 
+  useEffect(() => {
+    handleDME();
+  }, [typeof DeviceMotionEvent?.requestPermission]);
 
   return (
     <>
-        <div ref={Canvas} className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"></div>
-      
+      <div
+        ref={Canvas}
+        className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"
+      ></div>
 
       {audio && (
         <audio
@@ -195,7 +191,7 @@ setTimeout(() => {
               </svg>
             </button>
 
-            <div className="aspect-w-16 aspect-h-9 rounded-md" >
+            <div className="aspect-w-16 aspect-h-9 rounded-md">
               <video src="/assets/State.mp4" controls autoPlay></video>
             </div>
           </div>
@@ -204,4 +200,3 @@ setTimeout(() => {
     </>
   );
 };
-
