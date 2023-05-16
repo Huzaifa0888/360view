@@ -23,7 +23,7 @@ export const Panorama = ({}) => {
       autoRotateActivationDuration: 5000,
       dwellTime: 1000,
       autoHideInfospot: false,
-      controlBar: false,
+      controlBar: true,
       output: "console",
       controlOptions: {
         // Set default control setting to sensor-based for mobile devices
