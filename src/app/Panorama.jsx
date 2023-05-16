@@ -109,13 +109,13 @@ const [permissionGranted, setPermissionGranted] = useState(false);
 
   return (
     <>
-      <div className="w-full h-[95%]">
         <button
           onClick={handleDME}
           className="p-3 bg-cyan-600 text-white w-full mt-5"
         >
           Handle DME
         </button>
+      <div className="w-full h-[95%]">
         <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
       </div>
 
