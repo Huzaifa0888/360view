@@ -104,12 +104,12 @@ export const Panorama = ({}) => {
     alert("Permission");
   };
 
-  useEffect(() => {
-    handleDME();
-  }, [typeof DeviceMotionEvent?.requestPermission]);
 
   return (
     <>
+    <div onClick={handleDME} className="h-screen absolute z-50 w-full">
+      
+    </div>
       <div
         ref={Canvas}
         className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"
