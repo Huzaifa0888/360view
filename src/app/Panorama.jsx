@@ -23,7 +23,7 @@ export const Panorama = ({}) => {
       autoRotateActivationDuration: 5000,
       dwellTime: 1000,
       autoHideInfospot: false,
-      controlBar: true,
+      controlBar: false,
       output: "console",
     });
     
