@@ -106,8 +106,10 @@ const [permissionGranted, setPermissionGranted] = useState(false);
   };
   
 useEffect(() => {
-
-handleDME();
+setTimeout(() => {
+  
+  handleDME();
+}, 5000);
   
 }, [])
 
