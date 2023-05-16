@@ -102,6 +102,7 @@ const [permissionGranted, setPermissionGranted] = useState(false);
         })
         .catch(console.error);
     }
+    alert("Permission")
   };
   
 useEffect(() => {
