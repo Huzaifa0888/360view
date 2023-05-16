@@ -11,6 +11,7 @@ export const Panorama = ({}) => {
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [audio, setAudio] = useState(false);
+  const [hide, sethide] = useState(true);
 
   const initializePANOLENS = async () => {
     const THREE = await import("three");
@@ -102,14 +103,16 @@ export const Panorama = ({}) => {
         .catch(console.error);
     }
     alert("Permission");
+    sethide(false)
   };
 
 
   return (
     <>
-    <div onClick={handleDME} className="h-screen absolute z-50 w-full">
-      
+   {hide &&
+    <div onClick={handleDME} className="h-screen absolute z-50 w-full">  
     </div>
+   } 
       <div
         ref={Canvas}
         className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"
