@@ -25,10 +25,6 @@ export const Panorama = ({}) => {
       autoHideInfospot: false,
       controlBar: true,
       output: "console",
-      controlOptions: {
-        // Set default control setting to sensor-based for mobile devices
-        method: PANOLENS.TOUCH,
-      },
     });
     
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
@@ -93,24 +89,33 @@ export const Panorama = ({}) => {
       Canvas.current = null;
     };
   }, [Canvas]);
-   const [gyroscopePermission, setGyroscopePermission] = useState("denied");
+  
+const [permissionGranted, setPermissionGranted] = useState(false);
 
-   useEffect(() => {
-     if (
-       typeof DeviceOrientationEvent !== "undefined" &&
-       typeof DeviceOrientationEvent.requestPermission === "function"
-     ) {
-       DeviceOrientationEvent.requestPermission()
-         .then((permissionState) => {
-           setGyroscopePermission(permissionState);
-         })
-         .catch(console.error);
-     }
-   }, []);
+const handleRequestPermission = () => {
+  if (
+    typeof DeviceOrientationEvent !== "undefined" &&
+    DeviceOrientationEvent.requestPermission
+  ) {
+    DeviceOrientationEvent.requestPermission()
+      .then((response) => {
+        if (response === "granted") {
+          setPermissionGranted(true);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+};
 
   return (
     <>
-      <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
+      <div ref={Canvas} className="w-full h-screen overflow-hidden ">
+        <button onClick={handleRequestPermission}>
+          Request Gyroscope Permission
+        </button>
+      </div>
       {audio && (
         <audio
           src="/assets/audio.mp3"
@@ -126,8 +131,10 @@ export const Panorama = ({}) => {
               <h2 className="text-xl  text-black">Enchanted Tranquility</h2>
               <button
                 className=" text-black items-start"
-                onClick={() => {setOpen(false)
-                setAudio(true);}}
+                onClick={() => {
+                  setOpen(false);
+                  setAudio(true);
+                }}
               >
                 <svg
                   className="h-6 w-6"
@@ -167,8 +174,10 @@ export const Panorama = ({}) => {
           <div className="bg-white  rounded-lg relative lg:w-[50%]">
             <button
               className="absolute top-2 right-2 z-10 text-white"
-              onClick={() => {setIsOpen(false)
-              setAudio(true);}}
+              onClick={() => {
+                setIsOpen(false);
+                setAudio(true);
+              }}
             >
               <svg
                 className="h-5 w-5"
