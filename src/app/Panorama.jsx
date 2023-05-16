@@ -97,18 +97,23 @@ const [permissionGranted, setPermissionGranted] = useState(false);
         .then((permissionState) => {
           if (permissionState === "granted") {
             // User has granted permission
-            console.log(permissionState);
+            console.log("granted");
           }
         })
         .catch(console.error);
     }
   };
   
+useEffect(() => {
+
+handleDME();
+  
+}, [])
 
 
   return (
     <>
-        <div ref={Canvas} onClick={handleDME} className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"></div>
+        <div ref={Canvas} className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"></div>
       
 
       {audio && (
