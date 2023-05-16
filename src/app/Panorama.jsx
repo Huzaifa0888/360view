@@ -56,10 +56,15 @@ export const Panorama = ({}) => {
     popupHotspot2.addEventListener("click", () => {setIsOpen(true)
     setAudio(false);
     });
-    panorama1.addEventListener("enter-fade-start", () => {
+    panorama2.addEventListener("enter-fade-start", () => {
     
      
 
+      viewer.getCamera().fov = 80;
+      viewer.getCamera().updateProjectionMatrix();
+      viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
+    });
+    panorama1.addEventListener("enter-fade-start", () => {
       viewer.getCamera().fov = 80;
       viewer.getCamera().updateProjectionMatrix();
       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
@@ -98,17 +103,12 @@ const [permissionGranted, setPermissionGranted] = useState(false);
         .catch(console.error);
     }
   };
-
+handleDME();
 
   return (
     <>
-        <div ref={Canvas} className="w-full h-[550px] overflow-hidden "></div>
-        <button
-          onClick={handleDME}
-          className="p-3 bg-cyan-600 text-white w-full mt-5"
-        >
-          Handle DME
-        </button>
+        <div ref={Canvas} className="w-full h-[600px] overflow-hidden "></div>
+      
 
       {audio && (
         <audio
