@@ -24,7 +24,6 @@ export const Panorama = ({}) => {
       dwellTime: 1000,
       autoHideInfospot: false,
       controlBar: true,
-      output: "console",
     });
     
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
@@ -80,16 +79,10 @@ export const Panorama = ({}) => {
     setAudio(true)
   };
 
-  useMemo(() => {
-    if (typeof window !== "undefined") {
-      initializePANOLENS();
-    }
+    useEffect(() => {
+      if (typeof window !== "undefined") initializePANOLENS();
+    }, [Canvas]);
 
-    return () => {
-      Canvas.current?.destroy();
-      Canvas.current = null;
-    };
-  }, [Canvas]);
   
 const [permissionGranted, setPermissionGranted] = useState(false);
 
@@ -109,15 +102,13 @@ const [permissionGranted, setPermissionGranted] = useState(false);
 
   return (
     <>
+        <div ref={Canvas} className="w-full h-[500px] overflow-hidden "></div>
         <button
           onClick={handleDME}
           className="p-3 bg-cyan-600 text-white w-full mt-5"
         >
           Handle DME
         </button>
-      <div className="w-full h-[95%]">
-        <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
-      </div>
 
       {audio && (
         <audio
