@@ -103,11 +103,12 @@ const [permissionGranted, setPermissionGranted] = useState(false);
         .catch(console.error);
     }
   };
-handleDME();
+  
+
 
   return (
     <>
-        <div ref={Canvas} className="w-full h-[600px] overflow-hidden "></div>
+        <div ref={Canvas} onClick={handleDME} className="w-full h-[600px] overflow-hidden "></div>
       
 
       {audio && (
