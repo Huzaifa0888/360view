@@ -93,7 +93,20 @@ export const Panorama = ({}) => {
       Canvas.current = null;
     };
   }, [Canvas]);
-  
+   const [gyroscopePermission, setGyroscopePermission] = useState("denied");
+
+   useEffect(() => {
+     if (
+       typeof DeviceOrientationEvent !== "undefined" &&
+       typeof DeviceOrientationEvent.requestPermission === "function"
+     ) {
+       DeviceOrientationEvent.requestPermission()
+         .then((permissionState) => {
+           setGyroscopePermission(permissionState);
+         })
+         .catch(console.error);
+     }
+   }, []);
 
   return (
     <>
