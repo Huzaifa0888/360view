@@ -111,11 +111,21 @@ const handleRequestPermission = () => {
 
   return (
     <>
-      <div ref={Canvas} className="w-full h-screen overflow-hidden ">
-      </div>
+      <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
+      <div className="flex flex-col">
+        <button onClick={handleRequestPermission}>
+          Request Gyroscope Permission
+        </button>{" "}
+        <button onClick={handleRequestPermission}>
+          Request Gyroscope Permission
+        </button>{" "}
+        <button onClick={handleRequestPermission}>
+          Request Gyroscope Permission
+        </button>{" "}
         <button onClick={handleRequestPermission}>
           Request Gyroscope Permission
         </button>
+      </div>
       {audio && (
         <audio
           src="/assets/audio.mp3"
@@ -123,7 +133,6 @@ const handleRequestPermission = () => {
           autoPlay
         ></audio>
       )}
-
       {open && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
           <div className="bg-white rounded-lg p-8 lg:w-[50%] ">
