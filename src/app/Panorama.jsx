@@ -25,6 +25,10 @@ export const Panorama = ({}) => {
       autoHideInfospot: false,
       controlBar: false,
       output: "console",
+      controlOptions: {
+        // Set default control setting to sensor-based for mobile devices
+        method: PANOLENS.TOUCH,
+      },
     });
     
     const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
