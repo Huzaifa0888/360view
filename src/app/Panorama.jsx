@@ -108,7 +108,7 @@ const [permissionGranted, setPermissionGranted] = useState(false);
 
   return (
     <>
-        <div ref={Canvas} onClick={handleDME} className="w-full h-[600px] overflow-hidden "></div>
+        <div ref={Canvas} onClick={handleDME} className="w-full h-screen overflow-hidden opacity-100 bg-transparent"></div>
       
 
       {audio && (
@@ -187,7 +187,7 @@ const [permissionGranted, setPermissionGranted] = useState(false);
               </svg>
             </button>
 
-            <div className="aspect-w-16 aspect-h-9">
+            <div className="aspect-w-16 aspect-h-9 rounded-md" >
               <video src="/assets/State.mp4" controls autoPlay></video>
             </div>
           </div>
