@@ -65,6 +65,7 @@ export const Panorama = ({}) => {
       viewer.getCamera().updateProjectionMatrix();
       viewer.tweenControlCenter(new THREE.Vector3(5000.0, 50.0, 3000.9));
     });
+ 
 
     function createInfospot(imageUrl) {
       const Infospot = new PANOLENS.Infospot(1000, imageUrl);
@@ -92,30 +93,32 @@ export const Panorama = ({}) => {
   
 const [permissionGranted, setPermissionGranted] = useState(false);
 
-const handleRequestPermission = () => {
-  if (
-    typeof DeviceOrientationEvent !== "undefined" &&
-    DeviceOrientationEvent.requestPermission
-  ) {
-    DeviceOrientationEvent.requestPermission()
-      .then((response) => {
-        if (response === "granted") {
-          setPermissionGranted(true);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-};
+  const handleDME = () => {
+    if (typeof DeviceMotionEvent?.requestPermission === "function") {
+      DeviceMotionEvent.requestPermission()
+        .then((permissionState) => {
+          if (permissionState === "granted") {
+            // User has granted permission
+            console.log(permissionState);
+          }
+        })
+        .catch(console.error);
+    }
+  };
+
 
   return (
     <>
-    <div className="w-full h-[90%]">
+      <div className="w-full h-[95%]">
+        <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
+        <button
+          onClick={handleDME}
+          className="p-3 bg-cyan-600 text-white w-full mt-5"
+        >
+          Handle DME
+        </button>
+      </div>
 
-      <div ref={Canvas} className="w-full h-screen overflow-hidden "></div>
-    </div>
-    
       {audio && (
         <audio
           src="/assets/audio.mp3"
