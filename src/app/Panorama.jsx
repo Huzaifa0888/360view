@@ -27,21 +27,21 @@ export const Panorama = ({}) => {
       controlBar: true,
     });
 
-    const panorama1 = new PANOLENS.ImagePanorama("/assets/shot.jpg");
-    const panorama2 = new PANOLENS.ImagePanorama("/assets/360-2.jpg");
+    const panorama1 = new PANOLENS.ImagePanorama("/assets/p2.jpg");
+    const panorama2 = new PANOLENS.ImagePanorama("/assets/p3.jpg");
     viewer.add(panorama2, panorama1);
 
     const hotspot1 = createInfospot("/assets/circle.png");
     const hotspot2 = createInfospot("/assets/circle1.png");
-    const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
-    const popupHotspot2 = createInfospot("/assets/circle2.png");
+    // const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
+    // const popupHotspot2 = createInfospot("/assets/circle2.png");
 
     hotspot2.position.set(10000.0, -500.0, 10.0);
     hotspot1.position.set(8300.0, 500.0, 5000.0);
-    popupHotspot1.position.set(1800.0, 500.0, 8000.0);
-    popupHotspot2.position.set(1000.0, 500.0, 8000.0);
+    // popupHotspot1.position.set(1800.0, 500.0, 8000.0);
+    // popupHotspot2.position.set(1000.0, 500.0, 8000.0);
 
-    panorama1.add(hotspot1, popupHotspot1, popupHotspot2);
+    panorama1.add(hotspot1);
     // panorama1.add(hotspot1);
     panorama2.add(hotspot2);
 
@@ -53,14 +53,14 @@ export const Panorama = ({}) => {
       viewer.setPanorama(panorama1);
       setAudio(true);
     });
-    popupHotspot1.addEventListener("click", () => {
-      setOpen(true);
-      setAudio(false);
-    });
-    popupHotspot2.addEventListener("click", () => {
-      setIsOpen(true);
-      setAudio(false);
-    });
+    // popupHotspot1.addEventListener("click", () => {
+    //   setOpen(true);
+    //   setAudio(false);
+    // });
+    // popupHotspot2.addEventListener("click", () => {
+    //   setIsOpen(true);
+    //   setAudio(false);
+    // });
     panorama2.addEventListener("enter-fade-start", () => {
       viewer.getCamera().fov = 80;
       viewer.getCamera().updateProjectionMatrix();
@@ -102,30 +102,31 @@ export const Panorama = ({}) => {
         })
         .catch(console.error);
     }
-    alert("Permission");
     sethide(false)
   };
 
 
   return (
     <>
-   {hide &&
-    <div onClick={handleDME} className="h-screen absolute z-50 w-full">  
-    </div>
-   } 
+      {hide && (
+        <div
+          onClick={handleDME}
+          className="h-screen absolute z-50 w-full lg:hidden block"
+        ></div>
+      )}
       <div
         ref={Canvas}
-        className="w-full h-[600px] overflow-hidden opacity-100 bg-transparent"
+        className="w-full h-screen overflow-y-hidden opacity-100 bg-transparent"
       ></div>
 
-      {audio && (
+      {/* {audio && (
         <audio
           src="/assets/audio.mp3"
           className="w-0 h-0 hidden"
           autoPlay
         ></audio>
-      )}
-      {open && (
+      )} */}
+      {/* {open && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
           <div className="bg-white rounded-lg p-8 lg:w-[50%] ">
             <div className="flex justify-between mb-4">
@@ -168,9 +169,9 @@ export const Panorama = ({}) => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       {/* <VideoPopup open={open} setOpen={setOpen} /> */}
-      {isOpen && (
+      {/* {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white  rounded-lg relative lg:w-[50%]">
             <button
@@ -195,11 +196,16 @@ export const Panorama = ({}) => {
             </button>
 
             <div className="aspect-w-16 aspect-h-9 rounded-md">
-              <video src="/assets/State.mp4" controls autoPlay></video>
+              <video
+                className="rounded-md"
+                src="/assets/State.mp4"
+                controls
+                autoPlay
+              ></video>
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };
