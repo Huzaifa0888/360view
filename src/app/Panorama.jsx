@@ -50,7 +50,7 @@ export const Panorama = ({}) => {
 
     hotspot1.position.set(8300.0, 500.0, 5000.0);
     hotspot2.position.set(10000.0, -500.0, 10.0);
-    hotspot3.position.set(10000.0, -500.0, 10.0);
+    hotspot3.position.set(10000.0, 500.0, 10.0);
     hotspot4.position.set(10000.0, -500.0, 10.0);
     // popupHotspot1.position.set(1800.0, 500.0, 8000.0);
     // popupHotspot2.position.set(1000.0, 500.0, 8000.0);
