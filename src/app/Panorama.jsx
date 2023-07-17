@@ -66,9 +66,13 @@ export const Panorama = ({}) => {
       // setAudio(false);
     });
     hotspot2.addEventListener("click", () => {
-      viewer.setPanorama(panorama1);
+      viewer.setPanorama(panorama3);
       // setAudio(true);
     });
+        hotspot3.addEventListener("click", () => {
+          viewer.setPanorama(panorama4);
+          // setAudio(true);
+        });
     // popupHotspot1.addEventListener("click", () => {
     //   setOpen(true);
     //   setAudio(false);
