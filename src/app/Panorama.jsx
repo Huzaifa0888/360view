@@ -19,10 +19,10 @@ export const Panorama = ({}) => {
 
     const viewer = new PANOLENS.Viewer({
       container: Canvas.current,
-      autoRotate: true,
-      autoRotateSpeed: 0.2,
-      autoRotateActivationDuration: 5000,
-      dwellTime: 1000,
+      autoRotate: false,
+      // autoRotateSpeed: 0.2,
+      // autoRotateActivationDuration: 5000,
+      // dwellTime: 1000,
       autoHideInfospot: false,
       controlBar: false,
     });
