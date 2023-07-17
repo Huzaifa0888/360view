@@ -26,38 +26,48 @@ export const Panorama = ({}) => {
       autoHideInfospot: false,
       controlBar: false,
     });
-    console.log("🚀 ~ file: Panorama.jsx:29 ~ initializePANOLENS ~ viewer:", viewer)
-viewer.control[0]=false
-viewer.control[1]=true
-viewer.controls[1]=true
-viewer.controls[0] =false;
-viewer.DeviceOrientationControls;
+    console.log(
+      "🚀 ~ file: Panorama.jsx:29 ~ initializePANOLENS ~ viewer:",
+      viewer
+    );
+    viewer.control[0] = false;
+    viewer.control[1] = true;
+    viewer.controls[1] = true;
+    viewer.controls[0] = false;
+    viewer.DeviceOrientationControls;
 
-    const panorama1 = new PANOLENS.ImagePanorama("/assets/p2.jpg");
-    const panorama2 = new PANOLENS.ImagePanorama("/assets/p3.jpg");
-    viewer.add(panorama2, panorama1);
+    const panorama1 = new PANOLENS.ImagePanorama("/assets/p1.jpg");
+    const panorama2 = new PANOLENS.ImagePanorama("/assets/p2.jpg");
+    const panorama3 = new PANOLENS.ImagePanorama("/assets/p3.jpg");
+    const panorama4 = new PANOLENS.ImagePanorama("/assets/p4.jpg");
+    // viewer.add(panorama1, panorama2, panorama3);
+    viewer.add(panorama1, panorama2, panorama3, panorama4);
 
     const hotspot1 = createInfospot("/assets/circle.png");
     const hotspot2 = createInfospot("/assets/circle1.png");
-    // const popupHotspot1 = createInfospot("/assets/ellipseVip.png");
-    // const popupHotspot2 = createInfospot("/assets/circle2.png");
+    const hotspot3 = createInfospot("/assets/ellipseVip.png");
+    const hotspot4 = createInfospot("/assets/circle2.png");
 
-    hotspot2.position.set(10000.0, -500.0, 10.0);
     hotspot1.position.set(8300.0, 500.0, 5000.0);
+    hotspot2.position.set(10000.0, -500.0, 10.0);
+    hotspot3.position.set(10000.0, -500.0, 10.0);
+    hotspot4.position.set(10000.0, -500.0, 10.0);
     // popupHotspot1.position.set(1800.0, 500.0, 8000.0);
     // popupHotspot2.position.set(1000.0, 500.0, 8000.0);
 
     panorama1.add(hotspot1);
     // panorama1.add(hotspot1);
     panorama2.add(hotspot2);
+    panorama3.add(hotspot3);
+    panorama4.add(hotspot3);
 
     hotspot1.addEventListener("click", () => {
       viewer.setPanorama(panorama2);
-      setAudio(false);
+      // setAudio(false);
     });
     hotspot2.addEventListener("click", () => {
       viewer.setPanorama(panorama1);
-      setAudio(true);
+      // setAudio(true);
     });
     // popupHotspot1.addEventListener("click", () => {
     //   setOpen(true);
@@ -108,9 +118,8 @@ viewer.DeviceOrientationControls;
         })
         .catch(console.error);
     }
-    sethide(false)
+    sethide(false);
   };
-
 
   return (
     <>
