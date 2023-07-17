@@ -27,8 +27,12 @@ export const Panorama = ({}) => {
       controlBar: false,
     });
     console.log("🚀 ~ file: Panorama.jsx:29 ~ initializePANOLENS ~ viewer:", viewer)
-viewer.controls[0]=false
+viewer.control[0]=false
+viewer.control[1]=true
 viewer.controls[1]=true
+viewer.controls[0] =false;
+viewer.DeviceOrientationControls;
+
     const panorama1 = new PANOLENS.ImagePanorama("/assets/p2.jpg");
     const panorama2 = new PANOLENS.ImagePanorama("/assets/p3.jpg");
     viewer.add(panorama2, panorama1);
