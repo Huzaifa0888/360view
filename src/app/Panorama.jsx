@@ -24,9 +24,11 @@ export const Panorama = ({}) => {
       autoRotateActivationDuration: 5000,
       dwellTime: 1000,
       autoHideInfospot: false,
-      controlBar: true,
+      controlBar: false,
     });
-
+    console.log("🚀 ~ file: Panorama.jsx:29 ~ initializePANOLENS ~ viewer:", viewer)
+viewer.controls[0]=false
+viewer.controls[1]=true
     const panorama1 = new PANOLENS.ImagePanorama("/assets/p2.jpg");
     const panorama2 = new PANOLENS.ImagePanorama("/assets/p3.jpg");
     viewer.add(panorama2, panorama1);
